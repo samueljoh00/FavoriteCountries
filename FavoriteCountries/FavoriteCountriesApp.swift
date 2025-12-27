@@ -20,8 +20,11 @@ struct FavoriteCountriesApp: App {
     }
     
     init() {
-        // parse JSON into data models
-        // initialize store
-        // load data into store
+        /// Currently fetching data at launch.
+        /// Could make this optional and allow/disallow preloading.
+        /// We could preload the first page, and then have subsequent pages
+        /// call the API.
+        let wbService = WorldBankAPIService()
+        Task { await wbService.fetchData() }
     }
 }

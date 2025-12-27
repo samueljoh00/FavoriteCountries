@@ -10,7 +10,7 @@ import SwiftUI
 struct FavoriteCountriesListView: View {
 
     @Environment(FavoritesStore.self) private var store
-    @State private var isAdding: Bool = false
+    @State private var isPresenting: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -23,17 +23,13 @@ struct FavoriteCountriesListView: View {
                     }
                 }
             }
-            .sheet(isPresented: $isAdding, onDismiss: didDismiss) {
+            .sheet(isPresented: $isPresenting, onDismiss: didDismiss) {
                 CountrySearchView()
-                Button(
-                    "Dismiss",
-                    action: { isAdding.toggle() }
-                )
             }
             .toolbar {
                 ToolbarItem {
                     Button(action: {
-                        isAdding.toggle()
+                        isPresenting.toggle()
                     }) {
                         Text("Add Country")
                     }
