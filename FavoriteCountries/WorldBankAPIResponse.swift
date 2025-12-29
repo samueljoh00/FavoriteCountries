@@ -24,7 +24,7 @@ struct Metadata: Codable {
     var total: Int
 }
 
-struct Country: Codable {
+struct Country: Codable, Hashable {
     let id: String
     let name: String
     let capitalCity: String

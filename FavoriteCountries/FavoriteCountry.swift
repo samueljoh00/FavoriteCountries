@@ -10,8 +10,8 @@ import Foundation
 /**
  This serves as the data model for a FavoriteCountry item.
  */
-struct FavoriteCountry: Codable, Identifiable {
-    let id: UUID
+struct FavoriteCountry: Identifiable {
+    let id: UUID = UUID()
     let name: String
     let notes: String
 }

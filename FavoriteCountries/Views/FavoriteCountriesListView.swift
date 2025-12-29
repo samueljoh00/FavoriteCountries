@@ -17,14 +17,14 @@ struct FavoriteCountriesListView: View {
             List {
                 ForEach(store.countries) { item in
                     NavigationLink {
-                        CountryDetailsView()
+                        CountryDetailsView(country: .init(id: item.name, name: item.name, capitalCity: item.name))
                     } label: {
                         FavoriteCountryItemView(item: item)
                     }
                 }
             }
             .sheet(isPresented: $isPresenting, onDismiss: didDismiss) {
-                CountrySearchView()
+                CountrySearchView(showDismiss: true)
             }
             .toolbar {
                 ToolbarItem {
@@ -46,7 +46,6 @@ struct FavoriteCountriesListView: View {
     private func addItem() {
         withAnimation {
             let newItem = FavoriteCountry(
-                id: UUID(),
                 name: "New Country",
                 notes: ""
             )

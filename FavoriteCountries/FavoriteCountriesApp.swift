@@ -15,16 +15,42 @@ struct FavoriteCountriesApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(store)
+                .environment(\.favoritesStore, store)
+                .environment(\.dataManager, WorldBankAPIService())
         }
     }
     
     init() {
         /// Currently fetching data at launch.
         /// Could make this optional and allow/disallow preloading.
-        /// We could preload the first page, and then have subsequent pages
-        /// call the API.
-        let wbService = WorldBankAPIService()
-        Task { await wbService.fetchData() }
+        /// Could also call fetchData when search view is presented,
+        /// since that's the only time it matters.
+//        let wbService = WorldBankAPIService()
+    }
+}
+
+// Define a custom environment key
+struct DataManager: EnvironmentKey {
+    static let defaultValue = WorldBankAPIService()
+}
+
+// Extend EnvironmentValues
+extension EnvironmentValues {
+    var dataManager: WorldBankAPIService {
+        get { self[DataManager.self] }
+        set { self[DataManager.self] = newValue }
+    }
+}
+
+// Define a custom environment key
+struct FavoritesStoreKey: EnvironmentKey {
+    static let defaultValue = FavoritesStore()
+}
+
+// Extend EnvironmentValues
+extension EnvironmentValues {
+    var favoritesStore: FavoritesStore {
+        get { self[FavoritesStoreKey.self] }
+        set { self[FavoritesStore.self] = newValue }
     }
 }

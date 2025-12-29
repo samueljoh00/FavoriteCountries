@@ -17,7 +17,7 @@ struct ContentView: View {
                 FavoriteCountriesListView()
             }
             Tab("Search", systemImage: "magnifyingglass", value: .search) {
-                CountrySearchView()
+                CountrySearchView(showDismiss: false)
             }
             Tab("About", systemImage: "questionmark.circle", value: .about) {
                 AboutView()
@@ -30,8 +30,7 @@ struct ContentView: View {
         case search
         case about
     }
-}
-
+} 
 #Preview {
     ContentView()
         .environment(FavoritesStore())

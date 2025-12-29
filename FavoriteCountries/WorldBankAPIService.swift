@@ -7,7 +7,7 @@
 
 import Foundation
 
-class WorldBankAPIService {
+public class WorldBankAPIService {
     /// What does this need to do?
     /// 1. Be able to fetch data from API
     /// 2. Parse data and pass into models
@@ -23,15 +23,28 @@ class WorldBankAPIService {
     /// optimization.
     final let apiPath = "https://api.worldbank.org/v2/countries?format=json"
     
-    var countries: [Country] = []
+    private var countries: [Country] = []
+    private var hasFetched: Bool = false
     
-    func fetchData() async {
-        guard let url = URL(string: apiPath) else { return }
+    func fetchData() async -> [Country] {
+        if !hasFetched {
+            for page in 1...6 {
+                await fetchData(forPage: page)
+            }
+            print("Fetched all data!")
+            hasFetched = true
+        }
+        return countries
+    }
+    
+    private func fetchData(forPage page: Int) async {
+        let paginatedUrl = "\(apiPath)&page=\(page)"
+        guard let url = URL(string: paginatedUrl) else { return }
 
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let response = try JSONDecoder().decode(WorldBankAPIResponse.self, from: data)
-            self.countries = response.countries.filter { $0.capitalCity != "" }
+            self.countries.append(contentsOf: response.countries.filter { $0.capitalCity != "" })
         } catch {
             print("Error: \(error)")
         }

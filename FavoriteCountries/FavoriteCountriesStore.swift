@@ -22,8 +22,8 @@ import SwiftUI
     }
     
     static var mockData: [FavoriteCountry] = [
-        FavoriteCountry(id: UUID(), name: "United States", notes: "A country in North America"),
-        FavoriteCountry(id: UUID(), name: "France", notes: "A country in Europe"),
-        FavoriteCountry(id: UUID(), name: "Japan", notes: "A country in Asia"),
+        FavoriteCountry(name: "United States", notes: "A country in North America"),
+        FavoriteCountry(name: "France", notes: "A country in Europe"),
+        FavoriteCountry(name: "Japan", notes: "A country in Asia"),
     ]
 }
