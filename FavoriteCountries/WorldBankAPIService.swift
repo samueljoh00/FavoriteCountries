@@ -31,7 +31,7 @@ public class WorldBankAPIService {
             for page in 1...6 {
                 await fetchData(forPage: page)
             }
-            print("Fetched all data!")
+            print("XXDEBUG: Fetched all data!")
             hasFetched = true
         }
         return countries
@@ -46,7 +46,7 @@ public class WorldBankAPIService {
             let response = try JSONDecoder().decode(WorldBankAPIResponse.self, from: data)
             self.countries.append(contentsOf: response.countries.filter { $0.capitalCity != "" })
         } catch {
-            print("Error: \(error)")
+            print("XXDEBUG: Error: \(error)")
         }
     }
 }

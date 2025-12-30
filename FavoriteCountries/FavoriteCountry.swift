@@ -13,5 +13,6 @@ import Foundation
 struct FavoriteCountry: Identifiable {
     let id: UUID = UUID()
     let name: String
-    let notes: String
+    let capitalCity: String
+    var notes: String
 }

@@ -17,7 +17,7 @@ struct FavoriteCountriesListView: View {
             List {
                 ForEach(store.countries) { item in
                     NavigationLink {
-                        CountryDetailsView(country: .init(id: item.name, name: item.name, capitalCity: item.name))
+                        FavoriteCountryDetailsView(country: item)
                     } label: {
                         FavoriteCountryItemView(item: item)
                     }
@@ -42,16 +42,6 @@ struct FavoriteCountriesListView: View {
     private func didDismiss() {
 
     }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = FavoriteCountry(
-                name: "New Country",
-                notes: ""
-            )
-            store.add(newItem)
-        }
-    }
 }
 
 struct FavoriteCountryItemView: View {
@@ -62,7 +52,17 @@ struct FavoriteCountryItemView: View {
     }
 
     var body: some View {
-        Text("Name: \(item.name)\nNotes: \(item.notes)")
+        VStack(alignment: .leading) {
+            Text(item.name)
+                .font(.title3)
+                .bold()
+            
+            if item.notes != "" {
+                Text(item.notes)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

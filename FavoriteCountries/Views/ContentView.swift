@@ -19,9 +19,6 @@ struct ContentView: View {
             Tab("Search", systemImage: "magnifyingglass", value: .search) {
                 CountrySearchView(showDismiss: false)
             }
-            Tab("About", systemImage: "questionmark.circle", value: .about) {
-                AboutView()
-            }
         }
     }
     

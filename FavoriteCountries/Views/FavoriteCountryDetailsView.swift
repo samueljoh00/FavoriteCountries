@@ -1,20 +1,24 @@
 //
-//  CountryDetailsView.swift
+//  FavoriteCountryDetailsView.swift
 //  FavoriteCountries
 //
-//  Created by Samuel Oh on 12/25/25.
+//  Created by Samuel Oh on 12/30/25.
 //
 
 import SwiftUI
 
-struct CountryDetailsView: View {
+struct FavoriteCountryDetailsView: View {
     
     @Environment(\.dismiss) private var dismiss
     @Environment(FavoritesStore.self) private var store
     
-    @State private var notes: String = ""
-    let country: Country
+    @State private var notes: String
+    private let country: FavoriteCountry
     
+    init(country: FavoriteCountry) {
+        self.country = country
+        _notes = .init(initialValue: country.notes)
+    }
     var body: some View {
         Form {
             Section(header: Text("Country")) {
@@ -36,18 +40,25 @@ struct CountryDetailsView: View {
                 TextField("Add your notes…", text: $notes, axis: .vertical)
                     .lineLimit(3, reservesSpace: true)
             }
+            .onDisappear {
+                updateNotes()
+            }
         }
         .navigationTitle(country.name)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                Button("Add") { addCountry() }
+                Button("Remove") { removeCountry() }
             }
         }
     }
     
-    func addCountry() {
-        store.add(FavoriteCountry(name: country.name, capitalCity: country.capitalCity, notes: notes))
+    func removeCountry() {
+        store.remove(country)
         dismiss()
+    }
+    
+    func updateNotes() {
+        store.update(country, notes: notes)
     }
 }
 
@@ -55,8 +66,8 @@ struct CountryDetailsView: View {
     let store = FavoritesStore()
 
     NavigationStack {
-        CountryDetailsView(
-            country: .init(id: "USA", name: "United States", capitalCity: "D.C.")
+        FavoriteCountryDetailsView(
+            country: FavoriteCountry(name: "United States", capitalCity: "D.C.", notes: "Nice place")
         )
     }
     .environment(store)
