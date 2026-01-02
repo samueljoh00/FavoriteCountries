@@ -12,26 +12,32 @@ struct FavoriteCountriesApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(FavoritesStore())
-                .environment(\.dataManager, WorldBankAPIService())
+            HomeView()
+                .environment(store)
+                .environment(\.dataManager, apiService)
         }
     }
     
+    private let persistence: PersistenceService
+    private let store: FavoritesStore
+    private let apiService: WorldBankAPIService
+    
     init() {
-//        let wbService = WorldBankAPIService()
+        self.persistence = PersistenceService()
+        self.store = FavoritesStore(persistenceService: persistence)
+        self.apiService = WorldBankAPIService()
     }
 }
 
-// Define a custom environment key
-struct DataManager: EnvironmentKey {
+struct DataManagerKey: EnvironmentKey {
     static let defaultValue = WorldBankAPIService()
 }
 
-// Extend EnvironmentValues
 extension EnvironmentValues {
     var dataManager: WorldBankAPIService {
-        get { self[DataManager.self] }
-        set { self[DataManager.self] = newValue }
+        get { self[DataManagerKey.self] }
+        set { self[DataManagerKey.self] = newValue }
     }
 }
+
+

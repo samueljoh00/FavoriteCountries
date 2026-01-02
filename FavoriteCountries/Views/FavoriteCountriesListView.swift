@@ -8,49 +8,65 @@
 import SwiftUI
 
 struct FavoriteCountriesListView: View {
-
+    
     @Environment(FavoritesStore.self) private var store
-    @State private var isPresenting: Bool = false
-
+    @Environment(\.dismiss) private var dismiss
+    @State private var addSheetPresenting: Bool = false
+    
     var body: some View {
+        let countries = store.get()
+
         NavigationStack {
             List {
-                ForEach(store.countries) { item in
+                if countries.isEmpty {
+                    EmptyListView()
+                }
+                ForEach(countries) { item in
                     NavigationLink {
                         FavoriteCountryDetailsView(country: item)
                     } label: {
                         FavoriteCountryItemView(item: item)
                     }
                 }
+                .onDelete { indexes in
+                    deleteItems(at: indexes)
+                }
             }
-            .sheet(isPresented: $isPresenting, onDismiss: didDismiss) {
+            .sheet(isPresented: $addSheetPresenting, onDismiss: didDismiss) {
                 CountrySearchView(showDismiss: true)
             }
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    EditButton()
+                }
                 ToolbarItem {
                     Button(action: {
-                        isPresenting.toggle()
+                        addSheetPresenting.toggle()
                     }) {
-                        Text("Add Country")
+                        Image(systemName: "plus")
                     }
                 }
             }
             .navigationTitle("Favorite Countries")
         }
     }
-
+    
     private func didDismiss() {
-
+        dismiss()
+    }
+    
+    private func deleteItems(at offsets: IndexSet) {
+        store.remove(at: offsets)
     }
 }
 
 struct FavoriteCountryItemView: View {
     private let item: FavoriteCountry
-
+    
     init(item: FavoriteCountry) {
         self.item = item
     }
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text(item.name)
@@ -59,6 +75,7 @@ struct FavoriteCountryItemView: View {
             
             if item.notes != "" {
                 Text(item.notes)
+                    .lineLimit(5, reservesSpace: false)
                     .foregroundStyle(.secondary)
             }
         }
@@ -66,7 +83,19 @@ struct FavoriteCountryItemView: View {
     }
 }
 
+struct EmptyListView: View {
+    var body: some View {
+        ZStack {
+            Text("No favorite countries found.")
+                .font(.title3)
+                .foregroundStyle(.secondary)
+                .padding()
+        }
+        .frame(maxWidth: .infinity, alignment: .center)
+    }
+}
+
 #Preview {
     FavoriteCountriesListView()
-        .environment(FavoritesStore())
+        .environment(FavoritesStore(persistenceService: PersistenceService()))
 }

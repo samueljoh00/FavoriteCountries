@@ -13,6 +13,8 @@ struct FavoriteCountryDetailsView: View {
     @Environment(FavoritesStore.self) private var store
     
     @State private var notes: String
+    @State private var showAlert: Bool = false
+    @State private var isEditing: Bool = false
     private let country: FavoriteCountry
     
     init(country: FavoriteCountry) {
@@ -36,9 +38,14 @@ struct FavoriteCountryDetailsView: View {
                 }
             }
 
-            Section(header: Text("Notes")) {
-                TextField("Add your notes…", text: $notes, axis: .vertical)
-                    .lineLimit(3, reservesSpace: true)
+            Section(header: Text("My favorite things about \(country.name)")) {
+                if isEditing {
+                    TextField("Add your notes…", text: $notes, axis: .vertical)
+                        .lineLimit(5, reservesSpace: true)
+                } else {
+                    Text(notes)
+                        .lineLimit(5, reservesSpace: false)
+                }
             }
             .onDisappear {
                 updateNotes()
@@ -46,9 +53,38 @@ struct FavoriteCountryDetailsView: View {
         }
         .navigationTitle(country.name)
         .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-                Button("Remove") { removeCountry() }
+            ToolbarItem(placement: .primaryAction) {
+                if isEditing {
+                    Button(
+                        action: {
+                            isEditing.toggle()
+                        },
+                        label: {
+                            Text("Done")
+                        })
+                } else {
+                    Button(
+                        action: {
+                            isEditing.toggle()
+                        },
+                        label: {
+                            Image(systemName: "pencil")
+                        })
+                }
             }
+            ToolbarItem(placement: .destructiveAction) {
+                Button(
+                    action: {
+                        showAlert.toggle()
+                    },
+                    label: {
+                        Image(systemName: "trash")
+                    })
+            }
+        }
+        .alert("Warning! Notes for a deleted country are unrecoverable.", isPresented: $showAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Remove", role: .destructive) { removeCountry() }
         }
     }
     
@@ -63,7 +99,7 @@ struct FavoriteCountryDetailsView: View {
 }
 
 #Preview {
-    let store = FavoritesStore()
+    let store = FavoritesStore(persistenceService: PersistenceService())
 
     NavigationStack {
         FavoriteCountryDetailsView(

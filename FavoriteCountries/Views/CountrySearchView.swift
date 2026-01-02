@@ -13,10 +13,13 @@ struct CountrySearchView: View {
     @State private var countries: [Country] = []
     // Binding property to represent search text.
     @State private var searchText: String = ""
-    let showDismiss: Bool
     @State private var dataLoaded: Bool = false
+    private let showDismiss: Bool
+    
     @Environment(\.dismiss) private var dismiss
     @Environment(\.dataManager) private var dataManager
+    @Environment(FavoritesStore.self) private var store
+    
     // Computed var to display filtered search results.
     private var searchResults: [Country] {
         if searchText.isEmpty {
@@ -26,6 +29,10 @@ struct CountrySearchView: View {
         }
     }
     
+    init(showDismiss: Bool = false) {
+        self.showDismiss = showDismiss
+    }
+    
     var body: some View {
         NavigationStack {
             if !dataLoaded {
@@ -33,8 +40,34 @@ struct CountrySearchView: View {
             } else {
                 List {
                     ForEach(searchResults, id: \.self) { country in
-                        NavigationLink(destination: CountryDetailsView(country: country)) {
-                            Text(country.name)
+                        let currentFavorites = store.get()
+                        let favorited = currentFavorites.first(where: { $0.name == country.name })
+                        HStack {
+                            if let favorited {
+                                Button(
+                                    action: {
+                                        store.remove(favorited)
+                                    },
+                                    label: {
+                                        Image(systemName: "star.fill")
+                                    })
+                                .foregroundStyle(Color.blue)
+                                .buttonStyle(.plain)
+                            } else {
+                                Button(
+                                    action: {
+                                        _ = store.add(.init(name: country.name, capitalCity: country.capitalCity, notes: ""))
+                                    },
+                                    label: {
+                                        Image(systemName: "star")
+                                    })
+                                .foregroundStyle(Color.blue)
+                                .buttonStyle(.plain)
+                            }
+                            Spacer()
+                            NavigationLink(destination: CountryDetailsView(country: country)) {
+                                Text(country.name)
+                            }
                         }
                     }
                 }
@@ -65,4 +98,5 @@ struct CountrySearchView: View {
 
 #Preview {
     CountrySearchView(showDismiss: false)
+        .environment(FavoritesStore(persistenceService: PersistenceService()))
 }

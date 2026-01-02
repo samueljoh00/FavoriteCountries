@@ -13,6 +13,7 @@ struct CountryDetailsView: View {
     @Environment(FavoritesStore.self) private var store
     
     @State private var notes: String = ""
+    @State private var showingAlert: Bool = false
     let country: Country
     
     var body: some View {
@@ -32,7 +33,7 @@ struct CountryDetailsView: View {
                 }
             }
 
-            Section(header: Text("Notes")) {
+            Section(header: Text("My favorite things about \(country.name)")) {
                 TextField("Add your notes…", text: $notes, axis: .vertical)
                     .lineLimit(3, reservesSpace: true)
             }
@@ -43,16 +44,22 @@ struct CountryDetailsView: View {
                 Button("Add") { addCountry() }
             }
         }
+        .alert("Country already favorited!", isPresented: $showingAlert) {
+            Button("OK", role: .cancel) {}
+        }
     }
     
     func addCountry() {
-        store.add(FavoriteCountry(name: country.name, capitalCity: country.capitalCity, notes: notes))
+        guard store.add(FavoriteCountry(name: country.name, capitalCity: country.capitalCity, notes: notes)) else {
+            showingAlert.toggle()
+            return
+        }
         dismiss()
     }
 }
 
 #Preview {
-    let store = FavoritesStore()
+    let store = FavoritesStore(persistenceService: PersistenceService())
 
     NavigationStack {
         CountryDetailsView(

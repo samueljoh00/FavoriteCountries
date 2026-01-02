@@ -9,24 +9,55 @@ import Foundation
 import SwiftUI
 
 @MainActor
-@Observable class FavoritesStore {
+@Observable final class FavoritesStore: FavoriteCountriesStoring {
+    private var countries: [FavoriteCountry] = []
+    private var persistenceService: PersistenceService
     
-    var countries: [FavoriteCountry] = mockData
+    func get() -> [FavoriteCountry] { countries }
     
-    func add(_ country: FavoriteCountry) {
-        print("XXDEBUG: Adding country \(country.name) to store...")
+    func add(
+        _ country: FavoriteCountry
+    ) -> Bool {
+        print("XXDEBUG: Attempting to add country \(country.name) to store...")
+        guard !countries.contains(where: { $0.id == country.id || $0.name == country.name }) else {
+            return false
+        }
         countries.append(country)
+        Task { await persistenceService.writeToDisk(with: countries) }
+        return true
     }
     
-    func remove(_ country: FavoriteCountry) {
+    func remove(
+        _ country: FavoriteCountry
+    ) {
         print("XXDEBUG: Removing country \(country.name) to store...")
-        countries.removeAll { $0.name == country.name }
+        countries.removeAll { $0.id == country.id }
+        Task { await persistenceService.writeToDisk(with: countries) }
     }
     
-    func update(_ country: FavoriteCountry, notes: String) {
+    func remove(
+        at offsets: IndexSet
+    ) {
+        print("XXDEBUG: Removing countries from store...")
+        countries.remove(atOffsets: offsets)
+        Task { await persistenceService.writeToDisk(with: countries) }
+    }
+    
+    func update(
+        _ country: FavoriteCountry,
+        notes: String
+    ) {
         print("XXDEBUG: Updating country \(country.name) notes...")
         guard let index = countries.firstIndex(where: { $0.id == country.id }) else { return }
         countries[index].notes = notes
+        Task { await persistenceService.writeToDisk(with: countries) }
+    }
+    
+    init(
+        persistenceService: PersistenceService
+    ) {
+        self.persistenceService = persistenceService
+        Task { @MainActor in self.countries = await persistenceService.readFromDisk() ?? [] }
     }
     
     static var mockData: [FavoriteCountry] = [
@@ -35,3 +66,4 @@ import SwiftUI
         FavoriteCountry(name: "Japan", capitalCity: "Tokyo", notes: ""),
     ]
 }
+
