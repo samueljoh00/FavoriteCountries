@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
-
+    @Environment(FavoritesStore.self) private var store
     @State private var showLaunchOverlay = true
 
-    // Use the same image name here and in LaunchScreen.storyboard to match visuals.
     private let launchBackgroundImageName = "painting_home"
 
     init() {
@@ -20,13 +19,10 @@ struct HomeView: View {
 
     var body: some View {
         ZStack {
-            Image("painting_home")
-                .resizable()
-                .scaledToFit()
-            FavoriteCountriesListView()
+            FavoriteCountriesListView(store: store)
             if showLaunchOverlay {
                 ZStack {
-                    Image("painting_home")
+                    Image(launchBackgroundImageName)
                         .resizable()
                         .scaledToFit()
                 }
@@ -37,7 +33,7 @@ struct HomeView: View {
         .ignoresSafeArea()
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now()) {
-                withAnimation(.easeOut(duration: 0.70)) {
+                withAnimation(.easeOut(duration: 0.50)) {
                     showLaunchOverlay = false
                 }
             }
@@ -46,8 +42,15 @@ struct HomeView: View {
 }
 
 // MARK: Previews
-#Preview {
+#Preview("Happy Path") {
     HomeView()
         .environment(FavoritesStore(persistenceService: PersistenceService()))
 }
+
+#Preview("API Failure") {
+    HomeView()
+        .environment(FavoritesStore(persistenceService: PersistenceService()))
+        .environment(\.dataManager, MockAPIService(shouldFail: true))
+}
+
 

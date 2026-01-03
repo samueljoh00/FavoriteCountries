@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol PersistenceServicing {
     func writeToDisk(with countries: [FavoriteCountry]) async
     func readFromDisk() async -> [FavoriteCountry]?
@@ -21,7 +20,7 @@ actor PersistenceService: PersistenceServicing {
     
     func writeToDisk(
         with countries: [FavoriteCountry]
-    ) {
+    ) async {
         do {
             let jsonData = try JSONEncoder().encode(countries)
             try jsonData.write(to: fileURL)
@@ -30,7 +29,7 @@ actor PersistenceService: PersistenceServicing {
         }
     }
     
-    func readFromDisk() -> [FavoriteCountry]? {
+    func readFromDisk() async -> [FavoriteCountry]?{
         do {
             let jsonData = try Data(contentsOf: fileURL)
             let readingData = try JSONDecoder().decode([FavoriteCountry].self, from: jsonData)

@@ -5,13 +5,16 @@
 //  Created by Samuel Oh on 12/25/25.
 //
 
-import Foundation
 import SwiftUI
 
 protocol FavoriteCountriesStoring {
-    func add(_ country: FavoriteCountry) async -> Bool
+    var countries: [FavoriteCountry] { get }
+    var isLoaded: Bool { get }
+    
+    func add(_ country: FavoriteCountry) -> Bool
     func remove(_ country: FavoriteCountry)
     func remove(at offsets: IndexSet)
+    func move(fromOffsets: IndexSet, toOffset: Int)
     func update(_ country: FavoriteCountry, notes: String)
 }
 
@@ -56,6 +59,14 @@ protocol FavoriteCountriesStoring {
         at offsets: IndexSet
     ) {
         countries.remove(atOffsets: offsets)
+        Task { await persistenceService.writeToDisk(with: countries) }
+    }
+    
+    func move(
+        fromOffsets: IndexSet,
+        toOffset: Int
+    ) {
+        countries.move(fromOffsets: fromOffsets, toOffset: toOffset)
         Task { await persistenceService.writeToDisk(with: countries) }
     }
     

@@ -4,8 +4,6 @@
 <dict>
 	<key>UILaunchScreen</key>
 	<dict>
-		<key>UIImageName</key>
-		<string>painting_home</string>
 		<key>UIImageRespectsSafeAreaInsets</key>
 		<false/>
 		<key>UILaunchScreen</key>

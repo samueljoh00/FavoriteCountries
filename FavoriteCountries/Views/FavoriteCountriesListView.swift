@@ -8,27 +8,32 @@
 import SwiftUI
 
 struct FavoriteCountriesListView: View {
-    @Environment(FavoritesStore.self) private var store
-    
+    @State private var viewModel: FavoriteCountriesListViewModel
     @State private var addSheetPresenting: Bool = false
+    
+    init(store: FavoritesStore) {
+        _viewModel = State(initialValue: FavoriteCountriesListViewModel(store: store))
+    }
     
     var body: some View {
         NavigationStack {
             Group {
-                let countries = store.countries
                 List {
-                    if countries.isEmpty {
+                    if viewModel.isEmpty {
                         EmptyListView()
                     }
-                    ForEach(countries) { item in
+                    ForEach(viewModel.countries) { item in
                         NavigationLink {
                             FavoriteCountryDetailsView(country: item)
                         } label: {
                             FavoriteCountryItemView(item: item)
                         }
                     }
+                    .onMove {
+                        viewModel.move(from: $0, to: $1)
+                    }
                     .onDelete { indexes in
-                        deleteItems(at: indexes)
+                        viewModel.delete(at: indexes)
                     }
                 }
             }
@@ -42,10 +47,8 @@ struct FavoriteCountriesListView: View {
                     .ignoresSafeArea()
             }
             .toolbar {
-                if store.isLoaded && !store.countries.isEmpty {
-                    ToolbarItem(placement: .topBarLeading) {
-                        EditButton()
-                    }
+                ToolbarItem(placement: .topBarLeading) {
+                    EditButton()
                 }
                 ToolbarItem {
                     Button(action: {
@@ -56,15 +59,12 @@ struct FavoriteCountriesListView: View {
                 }
             }
             .navigationTitle("Favorite Countries")
+            .navigationBarTitleDisplayMode(.large)
         }
     }
     
     // MARK: Button Actions
     private func didDismiss() { }
-    
-    private func deleteItems(at offsets: IndexSet) {
-        store.remove(at: offsets)
-    }
     
     // MARK: Helper Views
     private struct FavoriteCountryItemView: View {
@@ -123,6 +123,9 @@ struct FavoriteCountriesListView: View {
 
 // MARK: Previews
 #Preview {
-    FavoriteCountriesListView()
-        .environment(FavoritesStore(persistenceService: PersistenceService()))
+    NavigationStack {
+        let store = FavoritesStore(persistenceService: PersistenceService())
+        FavoriteCountriesListView(store: store)
+            .environment(store)
+    }
 }

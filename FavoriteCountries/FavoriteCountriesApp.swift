@@ -12,13 +12,13 @@ struct FavoriteCountriesApp: App {
     @State private var isReady = false
     
     private let persistence: PersistenceServicing
+    private let apiService: WorldBankAPIServicing
     private let store: FavoritesStore
-    private let apiService: WorldBankAPIService
     
     init() {
         self.persistence = PersistenceService()
-        self.store = FavoritesStore(persistenceService: persistence)
         self.apiService = WorldBankAPIService()
+        self.store = FavoritesStore(persistenceService: persistence)
     }
     
     var body: some Scene {
@@ -43,14 +43,13 @@ struct FavoriteCountriesApp: App {
 
 // MARK: Custom Environment Keys
 struct DataManagerKey: EnvironmentKey {
-    static let defaultValue = WorldBankAPIService()
+    static let defaultValue: WorldBankAPIServicing = WorldBankAPIService()
 }
 
 extension EnvironmentValues {
-    var dataManager: WorldBankAPIService {
-        get { self[DataManagerKey.self] }
+    var dataManager: WorldBankAPIServicing {
+        get { self[DataManagerKey.self] as WorldBankAPIServicing }
         set { self[DataManagerKey.self] = newValue }
     }
 }
-
 

@@ -5,9 +5,7 @@
 //  Created by Samuel Oh on 12/26/25.
 //
 
-import Foundation
-
-struct WorldBankAPIResponse: Decodable, Sendable {
+struct WorldBankAPIResponse: Decodable {
     let metadata: Metadata
     let countries: [Country]
 
@@ -19,13 +17,13 @@ struct WorldBankAPIResponse: Decodable, Sendable {
     }
 }
 
-struct Metadata: Codable, Sendable {
+struct Metadata: Codable {
     var page: Int
     var pages: Int
     var total: Int
 }
 
-struct Country: Codable, Hashable, Sendable {
+struct Country: Codable, Hashable {
     let id: String
     let name: String
     let capitalCity: String

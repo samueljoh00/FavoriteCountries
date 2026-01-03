@@ -15,6 +15,7 @@ struct CountrySearchView: View {
     @State private var countries: [Country] = []
     @State private var searchText: String = ""
     @State private var dataLoaded: Bool = false
+    @State private var showAlert: Bool = false
     
     private let showDismiss: Bool
     private var searchResults: [Country] {
@@ -22,6 +23,20 @@ struct CountrySearchView: View {
             return countries
         } else {
             return countries.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+        }
+    }
+    
+    private var fetchFlow: Void {
+        Task {
+            do {
+                let fetched = try await dataManager.fetchData()
+                await MainActor.run {
+                    self.countries = fetched
+                    self.dataLoaded = true
+                }
+            } catch {
+                showAlert.toggle()
+            }
         }
     }
     
@@ -68,7 +83,6 @@ struct CountrySearchView: View {
                         }
                     }
                 }
-                .navigationTitle("Country Search")
                 .toolbar {
                     if showDismiss {
                         ToolbarItem(placement: .confirmationAction) {
@@ -78,23 +92,32 @@ struct CountrySearchView: View {
                         }
                     }
                 }
+                .navigationTitle("Country Search")
             }
         }
         .searchable(text: $searchText, prompt: "Search a country...")
+        .alert("Failed to fetch countries.", isPresented: $showAlert) {
+            Button("Retry", role: .confirm) {
+                showAlert.toggle()
+                fetchFlow }
+            Button("Cancel", role: .close) { dismiss() }
+        }
         .onAppear {
-            Task {
-                let fetched = await dataManager.fetchData()
-                await MainActor.run {
-                    self.countries = fetched
-                    self.dataLoaded = true
-                }
-            }
+            fetchFlow
         }
     }
 }
 
 // MARK: Previews
-#Preview {
+#Preview("Happy Path") {
     CountrySearchView(showDismiss: false)
         .environment(FavoritesStore(persistenceService: PersistenceService()))
+}
+
+#Preview("API Failure") {
+    NavigationStack {
+        CountrySearchView(showDismiss: true)
+            .environment(FavoritesStore(persistenceService: PersistenceService()))
+            .environment(\.dataManager, MockAPIService(shouldFail: true))
+    }
 }

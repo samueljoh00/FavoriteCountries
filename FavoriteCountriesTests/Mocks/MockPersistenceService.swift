@@ -5,7 +5,6 @@
 //  Created by Samuel Oh on 1/1/26.
 //
 
-import Foundation
 @testable import FavoriteCountries
 
 final class MockPersistenceService: PersistenceServicing {

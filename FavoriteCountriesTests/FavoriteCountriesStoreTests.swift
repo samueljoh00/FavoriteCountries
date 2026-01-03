@@ -6,7 +6,6 @@
 //
 
 import Testing
-import Foundation
 @testable import FavoriteCountries
 
 @MainActor
@@ -107,6 +106,7 @@ struct FavoriteCountriesStoreTests {
                     mockCountries[1]
                 ],
                 removeParameter: .country(mockCountries[0]),
+                expectedStoreCount: 1,
                 expectedPersistenceCount: 1
             ),
             RemoveScenario(
@@ -116,6 +116,7 @@ struct FavoriteCountriesStoreTests {
                     mockCountries[1]
                 ],
                 removeParameter: .indexSet(IndexSet([0])),
+                expectedStoreCount: 1,
                 expectedPersistenceCount: 1
             ),
         ]
@@ -135,7 +136,37 @@ struct FavoriteCountriesStoreTests {
         }
         await wrote
         
+        #expect(sut.countries.count == scenario.expectedStoreCount)
         #expect(mockPersistence.countries.count == scenario.expectedPersistenceCount)
+    }
+    
+    @Test(
+        "move() testing",
+        arguments: [
+            MoveScenario(
+                testDescription: "Move - Happy path",
+                persistedCountries: [
+                    mockCountries[0],
+                    mockCountries[1]
+                ],
+                indexSet: .init([1]),
+                offset: 0,
+                expectedPosition: 0,
+                expectedCountry: mockCountries[1]
+            )
+        ]
+    )
+    func testMove(scenario: MoveScenario) async {
+        let mockPersistence = MockPersistenceService()
+        let sut = FavoritesStore(persistenceService: mockPersistence)
+        await mockPersistence.writeToDisk(with: scenario.persistedCountries)
+        await sut.loadIfNeeded()
+        
+        async let wrote: Void = mockPersistence.waitForNextWrite()
+        sut.move(fromOffsets: scenario.indexSet, toOffset: scenario.offset)
+        await wrote
+        
+        #expect(sut.countries[0].id == scenario.expectedCountry.id)
     }
     
     @Test(
@@ -195,12 +226,22 @@ struct RemoveScenario: CustomTestStringConvertible {
     var testDescription: String
     var persistedCountries: [FavoriteCountry]
     var removeParameter: RemoveParameterType
+    var expectedStoreCount: Int
     var expectedPersistenceCount: Int
     
     enum RemoveParameterType {
         case country(FavoriteCountry)
         case indexSet(IndexSet)
     }
+}
+
+struct MoveScenario: CustomTestStringConvertible {
+    var testDescription: String
+    var persistedCountries: [FavoriteCountry]
+    var indexSet: IndexSet
+    var offset: Int
+    var expectedPosition: Int
+    var expectedCountry: FavoriteCountry
 }
 
 struct UpdateScenario: CustomTestStringConvertible {

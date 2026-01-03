@@ -29,6 +29,20 @@
 			);
 			target = C5D6CEEB2EFDE4560059C1E6 /* FavoriteCountries */;
 		};
+		C5F251B02F090EA7007887AD /* Exceptions for "FavoriteCountriesTests" folder in "FavoriteCountries" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Mocks/MockAPIService.swift,
+			);
+			target = C5D6CEEB2EFDE4560059C1E6 /* FavoriteCountries */;
+		};
+		C5F251B12F090EA7007887AD /* Exceptions for "FavoriteCountriesTests" folder in "FavoriteCountriesTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Mocks/MockAPIService.swift,
+			);
+			target = C5F2519A2F08E605007887AD /* FavoriteCountriesTests */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -42,6 +56,10 @@
 		};
 		C5F2519C2F08E605007887AD /* FavoriteCountriesTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C5F251B02F090EA7007887AD /* Exceptions for "FavoriteCountriesTests" folder in "FavoriteCountries" target */,
+				C5F251B12F090EA7007887AD /* Exceptions for "FavoriteCountriesTests" folder in "FavoriteCountriesTests" target */,
+			);
 			path = FavoriteCountriesTests;
 			sourceTree = "<group>";
 		};

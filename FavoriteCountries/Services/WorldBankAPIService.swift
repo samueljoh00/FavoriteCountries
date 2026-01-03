@@ -8,7 +8,7 @@
 import Foundation
 
 protocol WorldBankAPIServicing {
-    func fetchData() async -> [Country]
+    func fetchData() async throws -> [Country]
 }
 
 actor WorldBankAPIService: WorldBankAPIServicing {
@@ -17,10 +17,14 @@ actor WorldBankAPIService: WorldBankAPIServicing {
     private var countries: [Country] = []
     private var hasFetched: Bool = false
     
-    func fetchData() async -> [Country] {
+    func fetchData() async throws -> [Country] {
         if !hasFetched {
             for page in 1...6 {
-                await fetchData(forPage: page)
+                do {
+                    try await fetchData(forPage: page)
+                } catch {
+                    throw(error)
+                }
             }
             hasFetched = true
         }
@@ -29,7 +33,7 @@ actor WorldBankAPIService: WorldBankAPIServicing {
     
     private func fetchData(
         forPage page: Int
-    ) async {
+    ) async throws {
         let paginatedUrl = "\(apiPath)&page=\(page)"
         guard let url = URL(string: paginatedUrl) else { return }
 
@@ -40,7 +44,7 @@ actor WorldBankAPIService: WorldBankAPIServicing {
             }
             self.countries.append(contentsOf: response.countries.filter { $0.capitalCity != "" })
         } catch {
-            // handle error
+            throw(error)
         }
     }
 }

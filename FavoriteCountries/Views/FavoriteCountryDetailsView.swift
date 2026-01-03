@@ -40,7 +40,6 @@ struct FavoriteCountryDetailsView: View {
             Button("Remove \(country.name)", role: .destructive) { removeCountry() }
         }
         .navigationTitle(country.name)
-        .navigationBarTitleDisplayMode(.large)
     }
     
     // MARK: Button Actions
