@@ -7,9 +7,14 @@
 
 import Foundation
 
-actor PersistenceService {
-    
-    static var fileURL: URL = {
+
+protocol PersistenceServicing {
+    func writeToDisk(with countries: [FavoriteCountry]) async
+    func readFromDisk() async -> [FavoriteCountry]?
+}
+
+actor PersistenceService: PersistenceServicing {
+    private let fileURL: URL = {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         return documentsDirectory.appendingPathComponent("favoriteCountries.json")
     }()
@@ -19,7 +24,7 @@ actor PersistenceService {
     ) {
         do {
             let jsonData = try JSONEncoder().encode(countries)
-            try jsonData.write(to: PersistenceService.fileURL)
+            try jsonData.write(to: fileURL)
         } catch {
             print("Error encoding data: \(error)")
         }
@@ -27,7 +32,7 @@ actor PersistenceService {
     
     func readFromDisk() -> [FavoriteCountry]? {
         do {
-            let jsonData = try Data(contentsOf: PersistenceService.fileURL)
+            let jsonData = try Data(contentsOf: fileURL)
             let readingData = try JSONDecoder().decode([FavoriteCountry].self, from: jsonData)
             return readingData
         } catch {

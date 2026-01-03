@@ -36,7 +36,7 @@ struct CountrySearchView: View {
             } else {
                 List {
                     ForEach(searchResults, id: \.id) { country in
-                        let currentFavorites = store.get()
+                        let currentFavorites = store.countries
                         let favorited = currentFavorites.first(where: { $0.name == country.name })
                         HStack {
                             if let favorited {
@@ -63,7 +63,7 @@ struct CountrySearchView: View {
                             Spacer()
                             NavigationLink(destination: CountryDetailsView(country: country)) {
                                 Text(country.name)
-                                    .font(.title3)
+                                    .avenir(weight: .medium, size: .standard)
                             }
                         }
                     }

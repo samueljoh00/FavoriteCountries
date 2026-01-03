@@ -8,27 +8,31 @@
 import Foundation
 import SwiftUI
 
+protocol FavoriteCountriesStoring {
+    func add(_ country: FavoriteCountry) async -> Bool
+    func remove(_ country: FavoriteCountry)
+    func remove(at offsets: IndexSet)
+    func update(_ country: FavoriteCountry, notes: String)
+}
+
 @MainActor
 @Observable final class FavoritesStore: FavoriteCountriesStoring {
     private(set) var countries: [FavoriteCountry] = []
     private(set) var isLoaded: Bool = false
-    private var persistenceService: PersistenceService
+    private var persistenceService: PersistenceServicing
     
     init(
-        persistenceService: PersistenceService
+        persistenceService: PersistenceServicing
     ) {
         self.persistenceService = persistenceService
     }
     
-    func loadIfNeeded() {
+    func loadIfNeeded() async {
         guard !isLoaded else { return }
-        Task { @MainActor in
-            self.countries = await persistenceService.readFromDisk() ?? []
-            self.isLoaded = true
-        }
+        
+        self.countries = await persistenceService.readFromDisk() ?? []
+        self.isLoaded = true
     }
-    
-    func get() -> [FavoriteCountry] { countries }
     
     func add(
         _ country: FavoriteCountry

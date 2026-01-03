@@ -11,7 +11,7 @@ import SwiftUI
 struct FavoriteCountriesApp: App {
     @State private var isReady = false
     
-    private let persistence: PersistenceService
+    private let persistence: PersistenceServicing
     private let store: FavoritesStore
     private let apiService: WorldBankAPIService
     
@@ -34,7 +34,7 @@ struct FavoriteCountriesApp: App {
                 }
             }
             .task {
-                store.loadIfNeeded()
+                await store.loadIfNeeded()
                 isReady = true
             }
         }

@@ -6,20 +6,56 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		C5F2519F2F08E605007887AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C5D6CEE42EFDE4560059C1E6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C5D6CEEB2EFDE4560059C1E6;
+			remoteInfo = FavoriteCountries;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		C5D6CEEC2EFDE4560059C1E6 /* FavoriteCountries.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FavoriteCountries.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5F2519B2F08E605007887AD /* FavoriteCountriesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FavoriteCountriesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C5F251AD2F08ED8C007887AD /* Exceptions for "FavoriteCountries" folder in "FavoriteCountries" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C5D6CEEB2EFDE4560059C1E6 /* FavoriteCountries */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C5D6CEEE2EFDE4560059C1E6 /* FavoriteCountries */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C5F251AD2F08ED8C007887AD /* Exceptions for "FavoriteCountries" folder in "FavoriteCountries" target */,
+			);
 			path = FavoriteCountries;
+			sourceTree = "<group>";
+		};
+		C5F2519C2F08E605007887AD /* FavoriteCountriesTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = FavoriteCountriesTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C5D6CEE92EFDE4560059C1E6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5F251982F08E605007887AD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				C5D6CEEE2EFDE4560059C1E6 /* FavoriteCountries */,
+				C5F2519C2F08E605007887AD /* FavoriteCountriesTests */,
 				C5D6CEED2EFDE4560059C1E6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				C5D6CEEC2EFDE4560059C1E6 /* FavoriteCountries.app */,
+				C5F2519B2F08E605007887AD /* FavoriteCountriesTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +108,29 @@
 			productReference = C5D6CEEC2EFDE4560059C1E6 /* FavoriteCountries.app */;
 			productType = "com.apple.product-type.application";
 		};
+		C5F2519A2F08E605007887AD /* FavoriteCountriesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5F251A32F08E605007887AD /* Build configuration list for PBXNativeTarget "FavoriteCountriesTests" */;
+			buildPhases = (
+				C5F251972F08E605007887AD /* Sources */,
+				C5F251982F08E605007887AD /* Frameworks */,
+				C5F251992F08E605007887AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C5F251A02F08E605007887AD /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C5F2519C2F08E605007887AD /* FavoriteCountriesTests */,
+			);
+			name = FavoriteCountriesTests;
+			packageProductDependencies = (
+			);
+			productName = FavoriteCountriesTests;
+			productReference = C5F2519B2F08E605007887AD /* FavoriteCountriesTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -82,6 +143,10 @@
 				TargetAttributes = {
 					C5D6CEEB2EFDE4560059C1E6 = {
 						CreatedOnToolsVersion = 26.2;
+					};
+					C5F2519A2F08E605007887AD = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = C5D6CEEB2EFDE4560059C1E6;
 					};
 				};
 			};
@@ -100,12 +165,20 @@
 			projectRoot = "";
 			targets = (
 				C5D6CEEB2EFDE4560059C1E6 /* FavoriteCountries */,
+				C5F2519A2F08E605007887AD /* FavoriteCountriesTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C5D6CEEA2EFDE4560059C1E6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5F251992F08E605007887AD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +195,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C5F251972F08E605007887AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C5F251A02F08E605007887AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C5D6CEEB2EFDE4560059C1E6 /* FavoriteCountries */;
+			targetProxy = C5F2519F2F08E605007887AD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		C5D6CEF52EFDE4570059C1E6 /* Debug */ = {
@@ -257,9 +345,9 @@
 				DEVELOPMENT_TEAM = 62CH5D7H86;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FavoriteCountries/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -290,9 +378,9 @@
 				DEVELOPMENT_TEAM = 62CH5D7H86;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FavoriteCountries/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -309,6 +397,48 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C5F251A12F08E605007887AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 62CH5D7H86;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.samueloh.FavoriteCountriesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FavoriteCountries.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FavoriteCountries";
+			};
+			name = Debug;
+		};
+		C5F251A22F08E605007887AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 62CH5D7H86;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.samueloh.FavoriteCountriesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FavoriteCountries.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FavoriteCountries";
 			};
 			name = Release;
 		};
@@ -329,6 +459,15 @@
 			buildConfigurations = (
 				C5D6CEF82EFDE4570059C1E6 /* Debug */,
 				C5D6CEF92EFDE4570059C1E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C5F251A32F08E605007887AD /* Build configuration list for PBXNativeTarget "FavoriteCountriesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5F251A12F08E605007887AD /* Debug */,
+				C5F251A22F08E605007887AD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

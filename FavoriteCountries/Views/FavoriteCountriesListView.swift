@@ -32,8 +32,9 @@ struct FavoriteCountriesListView: View {
                     }
                 }
             }
-            .background(alignment: .topLeading) {
+            .background(alignment: .topTrailing) {
                 HomeImageView()
+                    .ignoresSafeArea()
             }
             .scrollContentBackground(.hidden)
             .sheet(isPresented: $addSheetPresenting, onDismiss: didDismiss) {
@@ -41,7 +42,7 @@ struct FavoriteCountriesListView: View {
                     .ignoresSafeArea()
             }
             .toolbar {
-                if store.isLoaded && !store.get().isEmpty {
+                if store.isLoaded && !store.countries.isEmpty {
                     ToolbarItem(placement: .topBarLeading) {
                         EditButton()
                     }
@@ -55,9 +56,6 @@ struct FavoriteCountriesListView: View {
                 }
             }
             .navigationTitle("Favorite Countries")
-            .task {
-                store.loadIfNeeded()
-            }
         }
     }
     
@@ -79,11 +77,12 @@ struct FavoriteCountriesListView: View {
         var body: some View {
             VStack(alignment: .leading) {
                 Text(item.name)
-                    .font(.title3)
-                    .bold()
+                    .avenir(weight: .medium, size: .standard)
+                    .foregroundStyle(.primary)
                 
                 if item.notes != "" {
                     Text(item.notes)
+                        .avenir(weight: .roman, size: .subtitle)
                         .lineLimit(5, reservesSpace: false)
                         .foregroundStyle(.secondary)
                 }
@@ -96,7 +95,7 @@ struct FavoriteCountriesListView: View {
         var body: some View {
             ZStack {
                 Text("No favorite countries found.")
-                    .font(.title3)
+                    .avenir(weight: .medium, size: .standard)
                     .foregroundStyle(.secondary)
                     .padding()
             }
@@ -118,7 +117,6 @@ struct FavoriteCountriesListView: View {
                     startPoint: .top,
                     endPoint: .bottom)
             }
-            .ignoresSafeArea()
         }
     }
 }

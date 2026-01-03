@@ -21,6 +21,7 @@ struct FavoriteCountryDetailsView: View {
     init(country: FavoriteCountry) {
         self.country = country
         _notes = .init(initialValue: country.notes)
+        NavigationBarStyle.applySecondaryTitleFont()
     }
     var body: some View {
         ScrollView {
@@ -90,11 +91,11 @@ struct FavoriteCountryDetailsView: View {
         let country: FavoriteCountry
         
         var body: some View {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text("Country")
+                    .avenir(weight: .medium, size: .standard)
                     .bold()
                     .foregroundStyle(.secondary)
-                    .padding(.horizontal, 6)
                 VStack(spacing: 0) {
                     HStack {
                         Text("Name")
@@ -112,6 +113,7 @@ struct FavoriteCountryDetailsView: View {
                     }
                     .padding(.vertical, 12)
                 }
+                .avenir(weight: .roman, size: .subtitle)
                 .padding(.horizontal, 12)
                 .background(.thinMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -135,16 +137,17 @@ struct FavoriteCountryDetailsView: View {
         }
         
         var body: some View {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text("My favorite things about \(country.name)")
-                    .bold()
+                    .avenir(weight: .medium, size: .standard)
                     .foregroundStyle(.secondary)
-                    .padding(.horizontal, 6)
+                    .bold()
                 if isEditing {
                     TextEditor(text: $notes)
+                        .avenir(weight: .roman, size: .subtitle)
                         .scrollContentBackground(.hidden)
-                        .frame(minHeight: 120)
-                        .padding(8)
+                        .frame(minHeight: 120, alignment: .leading)
+                        .padding(6)
                         .background(.thinMaterial)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .overlay(
@@ -153,6 +156,7 @@ struct FavoriteCountryDetailsView: View {
                         )
                 } else {
                     Text(notes.isEmpty ? "Enter any notes..." : notes)
+                        .avenir(weight: .roman, size: .subtitle)
                         .textSelection(.enabled)
                         .foregroundStyle(notes.isEmpty ? .secondary : .primary)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -165,46 +169,6 @@ struct FavoriteCountryDetailsView: View {
                         )
                 }
             }
-        }
-    }
-}
-
-// MARK: Custom Header
-/// Helper modifier for hero header effect.
-/// Found here: https://medium.com/@thomasostlyng/stretchy-headers-in-swiftui-with-visualeffect-fff973568323
-extension View {
-    func stretchyHeader() -> some View {
-        visualEffect { effect, geometry in
-            let currentHeight = geometry.size.height
-            let scrollOffset = geometry.frame(in: .scrollView).minY
-            let positiveOffset = max(0, scrollOffset)
-            
-            let scaleFactor = (currentHeight + positiveOffset) / currentHeight
-            
-            return effect
-                .scaleEffect(x: scaleFactor, y: scaleFactor, anchor: .bottom)
-        }
-    }
-}
-
-struct HeaderView: View {
-    let randomNumber: Int
-    
-    var body: some View {
-        ZStack {
-            Image("painting_\(randomNumber)")
-                .resizable()
-                .scaledToFill()
-                .frame(maxHeight: 180)
-                .clipped()
-                .stretchyHeader()
-            LinearGradient(
-                colors: [
-                    .clear,
-                    .white.opacity(0.30)
-                ],
-                startPoint: .top,
-                endPoint: .bottom)
         }
     }
 }

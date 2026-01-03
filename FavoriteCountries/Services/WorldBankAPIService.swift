@@ -7,7 +7,11 @@
 
 import Foundation
 
-actor WorldBankAPIService {
+protocol WorldBankAPIServicing {
+    func fetchData() async -> [Country]
+}
+
+actor WorldBankAPIService: WorldBankAPIServicing {
     final let apiPath = "https://api.worldbank.org/v2/countries?format=json"
     
     private var countries: [Country] = []
@@ -18,7 +22,6 @@ actor WorldBankAPIService {
             for page in 1...6 {
                 await fetchData(forPage: page)
             }
-            print("XXDEBUG: Fetched all data!")
             hasFetched = true
         }
         return countries
@@ -37,7 +40,7 @@ actor WorldBankAPIService {
             }
             self.countries.append(contentsOf: response.countries.filter { $0.capitalCity != "" })
         } catch {
-            print("XXDEBUG: Error: \(error)")
+            // handle error
         }
     }
 }

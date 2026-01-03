@@ -1,9 +1,6 @@
 {
   "fill" : {
-    "linear-gradient" : [
-      "display-p3:0.24348,0.32039,0.89982,1.00000",
-      "display-p3:0.56460,0.86656,0.96783,1.00000"
-    ],
+    "automatic-gradient" : "display-p3:0.17618,0.30217,0.31383,1.00000",
     "orientation" : {
       "start" : {
         "x" : 0.5,
@@ -21,31 +18,38 @@
       "hidden" : false,
       "layers" : [
         {
+          "fill" : {
+            "automatic-gradient" : "extended-gray:1.00000,1.00000",
+            "orientation" : {
+              "start" : {
+                "x" : 0.5,
+                "y" : 0
+              },
+              "stop" : {
+                "x" : 0.5,
+                "y" : 0.7
+              }
+            }
+          },
+          "glass" : true,
           "image-name" : "Location Icon.png",
           "name" : "Location Icon",
           "position" : {
             "scale" : 0.4,
             "translation-in-points" : [
-              -164.03125,
-              -236.1453125
-            ]
-          }
-        },
-        {
-          "image-name" : "Location Icon.png",
-          "name" : "Location Icon",
-          "position" : {
-            "scale" : 0.4,
-            "translation-in-points" : [
-              178.9453125,
-              26.81562500000001
+              -143.49374999999992,
+              -238.49531249999998
             ]
           }
         },
         {
           "blend-mode" : "normal",
+          "fill" : "automatic",
+          "glass" : true,
+          "hidden" : false,
           "image-name" : "Earth Flat Icon.png",
           "name" : "Earth Flat Icon",
+          "opacity" : 1,
           "position" : {
             "scale" : 1.25,
             "translation-in-points" : [

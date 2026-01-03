@@ -16,6 +16,11 @@ struct CountryDetailsView: View {
     
     let country: Country
     
+    init(country: Country) {
+        self.country = country
+        NavigationBarStyle.applySecondaryTitleFont()
+    }
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
@@ -54,8 +59,7 @@ struct CountryDetailsView: View {
                 Text("Country")
                     .bold()
                     .foregroundStyle(.secondary)
-                    .padding(.horizontal, 6)
-                
+                    .avenir(weight: .medium, size: .standard)
                 VStack(spacing: 0) {
                     HStack {
                         Text("Name")
@@ -73,6 +77,7 @@ struct CountryDetailsView: View {
                     }
                     .padding(.vertical, 12)
                 }
+                .avenir(weight: .roman, size: .subtitle)
                 .padding(.horizontal, 12)
                 .background(.thinMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -98,8 +103,7 @@ struct CountryDetailsView: View {
                 Text("My favorite things about \(country.name)")
                     .bold()
                     .foregroundStyle(.secondary)
-                    .padding(.horizontal, 6)
-                
+                    .avenir(weight: .medium, size: .standard)
                 TextEditor(text: $notes)
                     .scrollContentBackground(.hidden)
                     .frame(minHeight: 120)
@@ -109,6 +113,7 @@ struct CountryDetailsView: View {
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(.quaternary))
+                    .avenir(weight: .roman, size: .subtitle)
             }
         }
     }
