@@ -8,34 +8,21 @@
 import SwiftUI
 
 struct CountryDetailsView: View {
-    
     @Environment(\.dismiss) private var dismiss
     @Environment(FavoritesStore.self) private var store
     
     @State private var notes: String = ""
     @State private var showingAlert: Bool = false
+    
     let country: Country
     
     var body: some View {
-        Form {
-            Section(header: Text("Country")) {
-                HStack {
-                    Text("Name")
-                    Spacer()
-                    Text(country.name)
-                        .foregroundStyle(.secondary)
-                }
-                HStack {
-                    Text("Capital")
-                    Spacer()
-                    Text(country.capitalCity)
-                        .foregroundStyle(.secondary)
-                }
-            }
-
-            Section(header: Text("My favorite things about \(country.name)")) {
-                TextField("Add your notes…", text: $notes, axis: .vertical)
-                    .lineLimit(3, reservesSpace: true)
+        ScrollView {
+            VStack(spacing: 20) {
+                CountryDetailsSection(country: country)
+                    .padding(.horizontal, 20)
+                CountryNotesSection(country: country, notes: $notes)
+                    .padding(.horizontal, 20)
             }
         }
         .navigationTitle(country.name)
@@ -49,6 +36,7 @@ struct CountryDetailsView: View {
         }
     }
     
+    // MARK: Button Actions
     func addCountry() {
         guard store.add(FavoriteCountry(name: country.name, capitalCity: country.capitalCity, notes: notes)) else {
             showingAlert.toggle()
@@ -56,8 +44,77 @@ struct CountryDetailsView: View {
         }
         dismiss()
     }
+    
+    // MARK: Helper Views
+    private struct CountryDetailsSection: View {
+        let country: Country
+        
+        var body: some View {
+            VStack(alignment: .leading) {
+                Text("Country")
+                    .bold()
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 6)
+                
+                VStack(spacing: 0) {
+                    HStack {
+                        Text("Name")
+                        Spacer()
+                        Text(country.name)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.vertical, 12)
+                    Divider()
+                    HStack {
+                        Text("Capital")
+                        Spacer()
+                        Text(country.capitalCity)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.vertical, 12)
+                }
+                .padding(.horizontal, 12)
+                .background(.thinMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(.quaternary)
+                )
+            }
+        }
+    }
+    
+    private struct CountryNotesSection: View {
+        let country: Country
+        @Binding var notes: String
+        
+        init(country: Country, notes: Binding<String>) {
+            self.country = country
+            self._notes = notes
+        }
+        
+        var body: some View {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("My favorite things about \(country.name)")
+                    .bold()
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 6)
+                
+                TextEditor(text: $notes)
+                    .scrollContentBackground(.hidden)
+                    .frame(minHeight: 120)
+                    .padding(8)
+                    .background(.thinMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(.quaternary))
+            }
+        }
+    }
 }
 
+// MARK: Previews
 #Preview {
     let store = FavoritesStore(persistenceService: PersistenceService())
 

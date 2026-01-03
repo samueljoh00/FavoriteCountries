@@ -9,14 +9,7 @@ import SwiftUI
 
 @main
 struct FavoriteCountriesApp: App {
-
-    var body: some Scene {
-        WindowGroup {
-            HomeView()
-                .environment(store)
-                .environment(\.dataManager, apiService)
-        }
-    }
+    @State private var isReady = false
     
     private let persistence: PersistenceService
     private let store: FavoritesStore
@@ -27,8 +20,28 @@ struct FavoriteCountriesApp: App {
         self.store = FavoritesStore(persistenceService: persistence)
         self.apiService = WorldBankAPIService()
     }
+    
+    var body: some Scene {
+        WindowGroup {
+            Group {
+                if isReady {
+                    HomeView()
+                        .environment(store)
+                        .environment(\.dataManager, apiService)
+                } else {
+                    Color(.systemBackground)
+                        .ignoresSafeArea()
+                }
+            }
+            .task {
+                store.loadIfNeeded()
+                isReady = true
+            }
+        }
+    }
 }
 
+// MARK: Custom Environment Keys
 struct DataManagerKey: EnvironmentKey {
     static let defaultValue = WorldBankAPIService()
 }

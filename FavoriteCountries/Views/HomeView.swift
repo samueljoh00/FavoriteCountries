@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct HomeView: View {
-
     var body: some View {
         FavoriteCountriesListView()
     }
-} 
+}
+
+// MARK: Previews
 #Preview {
     HomeView()
         .environment(FavoritesStore(persistenceService: PersistenceService()))

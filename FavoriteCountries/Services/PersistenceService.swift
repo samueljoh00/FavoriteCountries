@@ -7,9 +7,6 @@
 
 import Foundation
 
-/**
- 
- */
 actor PersistenceService {
     
     static var fileURL: URL = {
@@ -23,7 +20,6 @@ actor PersistenceService {
         do {
             let jsonData = try JSONEncoder().encode(countries)
             try jsonData.write(to: PersistenceService.fileURL)
-            print("XXDEBUG: Wrote to disk...")
         } catch {
             print("Error encoding data: \(error)")
         }
@@ -33,7 +29,6 @@ actor PersistenceService {
         do {
             let jsonData = try Data(contentsOf: PersistenceService.fileURL)
             let readingData = try JSONDecoder().decode([FavoriteCountry].self, from: jsonData)
-            print("XXDEBUG: Read from disk...")
             return readingData
         } catch {
             print("Error decoding data: \(error)")

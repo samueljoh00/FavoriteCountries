@@ -7,9 +7,6 @@
 
 import Foundation
 
-/**
- This serves as the data model for a FavoriteCountry item.
- */
 struct FavoriteCountry: Identifiable, Codable {
     var id: UUID = UUID()
     var name: String

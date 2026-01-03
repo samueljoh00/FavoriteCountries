@@ -1,0 +1,84 @@
+{
+  "fill" : {
+    "linear-gradient" : [
+      "display-p3:0.24348,0.32039,0.89982,1.00000",
+      "display-p3:0.56460,0.86656,0.96783,1.00000"
+    ],
+    "orientation" : {
+      "start" : {
+        "x" : 0.5,
+        "y" : 1
+      },
+      "stop" : {
+        "x" : 0.5,
+        "y" : 0.3
+      }
+    }
+  },
+  "groups" : [
+    {
+      "blur-material" : null,
+      "hidden" : false,
+      "layers" : [
+        {
+          "image-name" : "Location Icon.png",
+          "name" : "Location Icon",
+          "position" : {
+            "scale" : 0.4,
+            "translation-in-points" : [
+              -164.03125,
+              -236.1453125
+            ]
+          }
+        },
+        {
+          "image-name" : "Location Icon.png",
+          "name" : "Location Icon",
+          "position" : {
+            "scale" : 0.4,
+            "translation-in-points" : [
+              178.9453125,
+              26.81562500000001
+            ]
+          }
+        },
+        {
+          "blend-mode" : "normal",
+          "image-name" : "Earth Flat Icon.png",
+          "name" : "Earth Flat Icon",
+          "position" : {
+            "scale" : 1.25,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "lighting" : "individual",
+      "opacity" : 1,
+      "position" : {
+        "scale" : 1.25,
+        "translation-in-points" : [
+          0,
+          0
+        ]
+      },
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.7
+      },
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

@@ -8,19 +8,15 @@
 import SwiftUI
 
 struct CountrySearchView: View {
-    
-    // Need to load in data from API
-    @State private var countries: [Country] = []
-    // Binding property to represent search text.
-    @State private var searchText: String = ""
-    @State private var dataLoaded: Bool = false
-    private let showDismiss: Bool
-    
     @Environment(\.dismiss) private var dismiss
     @Environment(\.dataManager) private var dataManager
     @Environment(FavoritesStore.self) private var store
     
-    // Computed var to display filtered search results.
+    @State private var countries: [Country] = []
+    @State private var searchText: String = ""
+    @State private var dataLoaded: Bool = false
+    
+    private let showDismiss: Bool
     private var searchResults: [Country] {
         if searchText.isEmpty {
             return countries
@@ -39,7 +35,7 @@ struct CountrySearchView: View {
                 Text("Loading data...")
             } else {
                 List {
-                    ForEach(searchResults, id: \.self) { country in
+                    ForEach(searchResults, id: \.id) { country in
                         let currentFavorites = store.get()
                         let favorited = currentFavorites.first(where: { $0.name == country.name })
                         HStack {
@@ -67,6 +63,7 @@ struct CountrySearchView: View {
                             Spacer()
                             NavigationLink(destination: CountryDetailsView(country: country)) {
                                 Text(country.name)
+                                    .font(.title3)
                             }
                         }
                     }
@@ -96,6 +93,7 @@ struct CountrySearchView: View {
     }
 }
 
+// MARK: Previews
 #Preview {
     CountrySearchView(showDismiss: false)
         .environment(FavoritesStore(persistenceService: PersistenceService()))
