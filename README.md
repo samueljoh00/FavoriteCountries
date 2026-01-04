@@ -1,6 +1,5 @@
 # FavoriteCountries
 
-=======
 An iOS application built to track user-inputted notes for favorite countries. This was built for the purposes of a take-home assignment.
 
 ---
