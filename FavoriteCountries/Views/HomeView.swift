@@ -11,10 +11,8 @@ struct HomeView: View {
     @Environment(FavoritesStore.self) private var store
     @State private var showLaunchOverlay = true
 
-    private let launchBackgroundImageName = "painting_home"
-
     init() {
-        NavigationBarStyle.applyDefault()
+        CustomNavigationBarStyle.applyDefault()
     }
 
     var body: some View {
@@ -22,9 +20,7 @@ struct HomeView: View {
             FavoriteCountriesListView(store: store)
             if showLaunchOverlay {
                 ZStack {
-                    Image(launchBackgroundImageName)
-                        .resizable()
-                        .scaledToFit()
+                    HomeImageView()
                 }
                 .transition(.opacity)
                 .zIndex(1)

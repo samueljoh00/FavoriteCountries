@@ -21,7 +21,7 @@ struct FavoriteCountryDetailsView: View {
     init(country: FavoriteCountry) {
         self.country = country
         _notes = .init(initialValue: country.notes)
-        NavigationBarStyle.applySecondaryTitleFont()
+        CustomNavigationBarStyle.applySecondaryTitleFont()
     }
     var body: some View {
         ScrollView {

@@ -5,16 +5,18 @@
 //  Created by Samuel Oh on 1/1/26.
 //
 
+
 import SwiftUI
 @testable import FavoriteCountries
 
 class MockFavoriteCountriesStore: FavoriteCountriesStoring {
-    
-    private var countries: [FavoriteCountry]
+    var isLoaded: Bool
+    var countries: [FavoriteCountry]
     private var failAdd: Bool = false
     
-    init(countries: [FavoriteCountry]) {
+    init(countries: [FavoriteCountry], isLoaded: Bool = false) {
         self.countries = countries
+        self.isLoaded = isLoaded
     }
     
     func toggleFailAdd() {
@@ -44,5 +46,10 @@ class MockFavoriteCountriesStore: FavoriteCountriesStoring {
         countries[index].notes = notes
     }
     
-    
+    // MARK: Mock Data
+    static var mockData: [FavoriteCountry] = [
+        FavoriteCountry(name: "United States", capitalCity: "D.C", notes: "A country in North America"),
+        FavoriteCountry(name: "France", capitalCity: "Paris", notes: "A country in Europe"),
+        FavoriteCountry(name: "Japan", capitalCity: "Tokyo", notes: ""),
+    ]
 }

@@ -18,7 +18,7 @@ struct CountryDetailsView: View {
     
     init(country: Country) {
         self.country = country
-        NavigationBarStyle.applySecondaryTitleFont()
+        CustomNavigationBarStyle.applySecondaryTitleFont()
     }
     
     var body: some View {
@@ -43,7 +43,13 @@ struct CountryDetailsView: View {
     
     // MARK: Button Actions
     func addCountry() {
-        guard store.add(FavoriteCountry(name: country.name, capitalCity: country.capitalCity, notes: notes)) else {
+        guard store.add(
+            FavoriteCountry(
+                name: country.name,
+                capitalCity: country.capitalCity,
+                notes: notes
+            )
+        ) else {
             showingAlert.toggle()
             return
         }

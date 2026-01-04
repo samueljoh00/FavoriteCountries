@@ -37,8 +37,8 @@ struct FavoriteCountriesListView: View {
                     }
                 }
             }
-            .background(alignment: .topTrailing) {
-                HomeImageView()
+            .background {
+                HomeImageGradientView()
                     .ignoresSafeArea()
             }
             .scrollContentBackground(.hidden)
@@ -100,23 +100,6 @@ struct FavoriteCountriesListView: View {
                     .padding()
             }
             .frame(maxWidth: .infinity, alignment: .center)
-        }
-    }
-    
-    private struct HomeImageView: View {
-        var body: some View {
-            ZStack {
-                Image("painting_home")
-                    .resizable()
-                    .scaledToFill()
-                LinearGradient(
-                    colors: [
-                        .white.opacity(0.30),
-                        .black.opacity(0.60)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom)
-            }
         }
     }
 }
